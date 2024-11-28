@@ -3,12 +3,14 @@ from flask_cors import CORS
 from .config import Config
 from .routes import webhook_bp  # Ensure this matches your existing `routes.py`
 
-# Create the Flask application factory
 def create_app():
+    """
+    Application factory for creating the Flask app instance.
+    """
     app = Flask(__name__)
     app.config.from_object(Config)
     
-    # Enable CORS
+    # Enable CORS for cross-origin requests
     CORS(app)
     
     # Register Blueprints
@@ -30,5 +32,5 @@ def create_app():
     
     return app
 
-# Expose the app object for Gunicorn
+# Create and expose the app object for Gunicorn
 app = create_app()
