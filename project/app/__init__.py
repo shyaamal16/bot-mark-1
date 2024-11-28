@@ -3,6 +3,7 @@ from flask_cors import CORS
 from .config import Config
 from .routes import webhook_bp  # Ensure this matches your existing `routes.py`
 
+# Create the Flask application factory
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
@@ -28,3 +29,6 @@ def create_app():
         return jsonify({"error": "Internal server error"}), 500
     
     return app
+
+# Expose the app object for Gunicorn
+app = create_app()
