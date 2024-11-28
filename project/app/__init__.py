@@ -1,7 +1,6 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
 from .config import Config
-from .routes import webhook_bp  # Ensure this matches your existing `routes.py`
 
 def create_app():
     """
@@ -13,13 +12,14 @@ def create_app():
     # Enable CORS for cross-origin requests
     CORS(app)
     
-    # Register Blueprints
-    app.register_blueprint(webhook_bp)
+    # Import and register Blueprints
+    from .routes.webhook_routes import webhook_bp  # Ensure this matches your `routes/webhook_routes.py`
+    app.register_blueprint(webhook_bp, url_prefix='/api')  # Prefix API endpoints with '/api'
     
     # Default route for health check
     @app.route("/", methods=["GET"])
     def home():
-        return jsonify({"message": "Welcome to the Zoho SalesIQ Chatbot! Server is running."}), 200
+        return jsonify({"status": "active", "message": "Zoho SalesIQ Chatbot is running"}), 200
     
     # Error handlers
     @app.errorhandler(404)
